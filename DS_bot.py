@@ -1,24 +1,31 @@
-import discord as ds
+import discord as ds                                # pip install discord.py
 from discord.ext import commands
 from VT_bot_config import settings
 import time
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont         # pip install Pillow
 import textwrap, datetime as dt, requests, os
 from io import BytesIO
 import codecs
+import os
+
+folders = ['Бич', 'Вкидончики', 'Время', 'Гей', 'Демотивы', 'Класс', 'Мда', 'Муты', 'Насилие', 'Ор', 'Панчи', 'Песка', 'Ржака', 'Сори', 'Стоп', 'Ум', 'Ум ваче сей']
+os.mkdir('Results/') if not os.path.isdir("Results/") else print()
+os.mkdir('User_image/') if not os.path.isdir("User_image/") else print()
+os.mkdir('Temp/') if not os.path.isdir("Temp/") else print()
+for folder_name in folders:
+    os.mkdir(f'Results/{folder_name}/') if not os.path.isdir(f'Results/{folder_name}/') else print()
+
 save_path = list(__file__)
 save_path.reverse()
-save_path = save_path[save_path.index('/'):]
-save_path.reverse()
-save_path_add = ''
-for symbol in save_path:
-    save_path_add += symbol
+save_path = ''.join(save_path[ -1 : save_path.index('\\') : -1]).replace('\\', '/') + '/'
+print(save_path)
 
-save_path = save_path_add
+
 bot = commands.Bot(command_prefix=(settings['prefix']))
 client = ds.Client()
 
 def log_write(text):
+    os.mkdir('Mat/') if not os.path.isdir("Mat/") else print()
     log = open(save_path + 'Mat/log.txt', 'a')
     log.write(f"{text}\n---------------\n")
     log.close()
@@ -35,7 +42,7 @@ def turn_off(ctx):
     time = dt.datetime.now()
     author = ctx.message.author
     log_write(f"{author} turned off bot at {time}")
-    raise SystemExit
+    exit('Bot stopped')
 
 
 def put_meme(save_fold, MFP, meme_name, len_x, len_y, ctx, pos_x=0, pos_y=0):
@@ -104,10 +111,10 @@ async def хэлп(ctx):
     mat.save(save_path + 'Temp/White.png')
     mat.close()
     await ctx.send(file=(ds.File(save_path + 'Temp/White.png')))
-    os.remove(save_path + 'Temp/White.png')
+    #os.remove(save_path + 'Temp/White.png')
     help_file.close()
     del draw
-    await ctx.send("Есть пара скрытых опций. Чтобы о них узнать, обратись к Melios'y\nПока это все, окда.")
+    await ctx.send("Есть пара скрытых опций. Чтобы о них узнать, обратись к kernolle\nПока это все, окда.")
 
 
 @bot.command()
